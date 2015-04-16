@@ -8,6 +8,7 @@ Supportet URL Shortener
 
 * [Bitly](https://bitly.com)
 * [Google UrlShortener](http://goo.gl/)
+* [Tiny-URL](http://www.tiny-url.info/)
 
 Installation
 ------------
@@ -56,6 +57,7 @@ Using chan provider
     $shorter  = new \TwoDevs\UrlShortener\ChainShorter();
     $shorter->addShortener(new \TwoDevs\UrlShortener\BitlyShortener($adapter, ['access_token' => 'your-token']));
     $shorter->addShortener(new \TwoDevs\UrlShortener\GoogleShortener($adapter, ['key' => 'your-key']));
+    $shorter->addShortener(new \TwoDevs\UrlShortener\TinyUrlShortener($adapter));
     
     $shortUrl = $shorter->shorten('http://example.org');
     
