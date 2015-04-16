@@ -1,6 +1,9 @@
 UrlShortener Library
 =========================================
 
+[![Latest Stable Version](https://poser.pugx.org/twodevs/url-shortener/v/stable.svg)](https://packagist.org/packages/twodevs/url-shortener)
+[![License](https://poser.pugx.org/twodevs/url-shortener/license.svg)](https://packagist.org/packages/twodevs/url-shortener)
+
 This library helps you to generate shortlinks for long url using different URL Shorteners.
 
 Supportet URL Shortener
