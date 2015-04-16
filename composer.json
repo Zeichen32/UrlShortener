@@ -1,0 +1,28 @@
+{
+    "name": "twodevs/url-shortener",
+    "description": "This library helps you to generate shortlinks for long url using different URL Shorteners.",
+    "keywords": ["url shortener", "bitly", 'google url shortener'],
+    "license": "MIT",
+    "authors": [
+      {
+        "name": "Jens Averkamp",
+        "email": "j.averkamp@two-developers.com"
+      }
+    ],
+    "require": {
+        "php" : ">=5.4.8",
+        "league/url" : "~3.0",
+        "egeloen/http-adapter": "~0.7.0",
+        "twodevs/cache-interface": "~1.0",
+        "symfony/options-resolver" : "~2.6"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.6",
+        "guzzlehttp/guzzle": "~5.0"
+    },
+    "autoload": {
+      "psr-4": {
+        "TwoDevs\\UrlShortener\\": "src/"
+      }
+    }
+}
