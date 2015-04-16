@@ -1,4 +1,4 @@
-UrlShorter Library
+UrlShortener Library
 =========================================
 
 This library helps you to generate shortlinks for long url using different URL Shorteners.
@@ -52,7 +52,7 @@ Using chan provider
     // Create the Adapter
     $adapter = new \Ivory\HttpAdapter\GuzzleHttpHttpAdapter($client);
     
-    // Create BitlyShortener
+    // Create ChainProvider and attach bitly and google shortener
     $shorter  = new \TwoDevs\UrlShortener\ChainShorter();
     $shorter->addShortener(new \TwoDevs\UrlShortener\BitlyShortener($adapter, ['access_token' => 'your-token']));
     $shorter->addShortener(new \TwoDevs\UrlShortener\GoogleShortener($adapter, ['key' => 'your-key']));
