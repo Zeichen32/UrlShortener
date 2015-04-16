@@ -43,7 +43,7 @@ General Usage
     var_dump( (string) $shortUrl );
 ```
 
-Using chan provider
+Using chain provider
 -------------
 
 ```php
@@ -53,7 +53,7 @@ Using chan provider
     // Create the Adapter
     $adapter = new \Ivory\HttpAdapter\GuzzleHttpHttpAdapter($client);
     
-    // Create ChainProvider and attach bitly and google shortener
+    // Create ChainProvider and attach bitly, google shortener and Tiny-Url
     $shorter  = new \TwoDevs\UrlShortener\ChainShorter();
     $shorter->addShortener(new \TwoDevs\UrlShortener\BitlyShortener($adapter, ['access_token' => 'your-token']));
     $shorter->addShortener(new \TwoDevs\UrlShortener\GoogleShortener($adapter, ['key' => 'your-key']));
