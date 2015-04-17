@@ -12,6 +12,7 @@ Supportet URL Shortener
 * [Bitly](https://bitly.com)
 * [Google UrlShortener](http://goo.gl/)
 * [Tiny-URL](http://www.tiny-url.info/)
+* [Ow.ly](http://ow.ly/)
 
 Installation
 ------------
@@ -65,6 +66,7 @@ Using chain provider
     $shorter  = new \TwoDevs\UrlShortener\Provider\ChainProvider();
     $shorter->addShortener(new \TwoDevs\UrlShortener\Provider\BitlyProvider($adapter, ['access_token' => 'your-token']));
     $shorter->addShortener(new \TwoDevs\UrlShortener\Provider\GoogleProvider($adapter, ['key' => 'your-key']));
+    $shorter->addShortener(new \TwoDevs\UrlShortener\Provider\OwlyProvider($adapter, ['key' => 'your-key']));
     $shorter->addShortener(new \TwoDevs\UrlShortener\Provider\TinyUrlProvider($adapter));
     
     // Shorten a long url

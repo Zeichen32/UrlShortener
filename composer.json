@@ -1,7 +1,7 @@
 {
     "name": "twodevs/url-shortener",
     "description": "This library helps you to generate shortlinks for long url using different URL Shorteners.",
-    "keywords": ["url shortener", "bitly", "google url shortener", "tineURL"],
+    "keywords": ["url shortener", "bitly", "google url shortener", "tineURL", "ow.ly"],
     "license": "MIT",
     "authors": [
       {
