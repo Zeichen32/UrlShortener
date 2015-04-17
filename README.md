@@ -67,12 +67,12 @@ Using chain provider
     
     // Create ChainProvider and attach bitly, google shortener and Tiny-Url
     $shorter  = new \TwoDevs\UrlShortener\Provider\ChainProvider();
-    $shorter->addShortener(new \TwoDevs\UrlShortener\Provider\BitlyProvider($adapter, ['access_token' => 'your-token']));
-    $shorter->addShortener(new \TwoDevs\UrlShortener\Provider\GoogleProvider($adapter, ['key' => 'your-key']));
-    $shorter->addShortener(new \TwoDevs\UrlShortener\Provider\OwlyProvider($adapter, ['key' => 'your-key']));
-    $shorter->addShortener(new \TwoDevs\UrlShortener\Provider\TinyUrlProvider($adapter));
-    $shorter->addShortener(new \TwoDevs\UrlShortener\Provider\IsgdProvider($adapter));
-    $shorter->addShortener(new \TwoDevs\UrlShortener\Provider\VgdUrlProvider($adapter));
+    $shorter->addProvider(new \TwoDevs\UrlShortener\Provider\BitlyProvider($adapter, ['access_token' => 'your-token']));
+    $shorter->addProvider(new \TwoDevs\UrlShortener\Provider\GoogleProvider($adapter, ['key' => 'your-key']));
+    $shorter->addProvider(new \TwoDevs\UrlShortener\Provider\OwlyProvider($adapter, ['key' => 'your-key']));
+    $shorter->addProvider(new \TwoDevs\UrlShortener\Provider\TinyUrlProvider($adapter));
+    $shorter->addProvider(new \TwoDevs\UrlShortener\Provider\IsgdProvider($adapter));
+    $shorter->addProvider(new \TwoDevs\UrlShortener\Provider\VgdUrlProvider($adapter));
     
     // Shorten a long url
     $shortUrl = $shorter->shorten('http://example.org');
