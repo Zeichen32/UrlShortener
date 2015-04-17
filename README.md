@@ -3,6 +3,7 @@ UrlShortener Library
 
 [![Latest Stable Version](https://poser.pugx.org/twodevs/url-shortener/v/stable.svg)](https://packagist.org/packages/twodevs/url-shortener)
 [![License](https://poser.pugx.org/twodevs/url-shortener/license.svg)](https://packagist.org/packages/twodevs/url-shortener)
+[![Build Status](https://travis-ci.org/Zeichen32/UrlShortener.svg)](https://travis-ci.org/Zeichen32/UrlShortener)
 
 This library helps you to generate shortlinks for long url using different URL Shorteners.
 
