@@ -39,11 +39,16 @@ General Usage
     $adapter = new \Ivory\HttpAdapter\GuzzleHttpHttpAdapter($client);
     
     // Create BitlyShortener
-    $shorter = new \TwoDevs\UrlShortener\BitlyShortener($adapter, ['access_token' => 'your-token']));
+    $shorter = new \TwoDevs\UrlShortener\Provider\BitlyProvider($adapter, ['access_token' => 'your-token']));
     
+    // Shorten a long url
     $shortUrl = $shorter->shorten('http://example.org');
     
+    // Expand a short url
+    $longUrl = $shorter->expand($shortUrl);
+    
     var_dump( (string) $shortUrl );
+    var_dump( (string) $longUrl );
 ```
 
 Using chain provider
@@ -57,14 +62,19 @@ Using chain provider
     $adapter = new \Ivory\HttpAdapter\GuzzleHttpHttpAdapter($client);
     
     // Create ChainProvider and attach bitly, google shortener and Tiny-Url
-    $shorter  = new \TwoDevs\UrlShortener\ChainShorter();
-    $shorter->addShortener(new \TwoDevs\UrlShortener\BitlyShortener($adapter, ['access_token' => 'your-token']));
-    $shorter->addShortener(new \TwoDevs\UrlShortener\GoogleShortener($adapter, ['key' => 'your-key']));
-    $shorter->addShortener(new \TwoDevs\UrlShortener\TinyUrlShortener($adapter));
+    $shorter  = new \TwoDevs\UrlShortener\Provider\ChainProvider();
+    $shorter->addShortener(new \TwoDevs\UrlShortener\Provider\BitlyProvider($adapter, ['access_token' => 'your-token']));
+    $shorter->addShortener(new \TwoDevs\UrlShortener\Provider\GoogleProvider($adapter, ['key' => 'your-key']));
+    $shorter->addShortener(new \TwoDevs\UrlShortener\Provider\TinyUrlProvider($adapter));
     
+    // Shorten a long url
     $shortUrl = $shorter->shorten('http://example.org');
     
+    // Expand a short url
+    $longUrl = $shorter->expand($shortUrl);
+    
     var_dump( (string) $shortUrl );
+    var_dump( (string) $longUrl );
 ```
 
 

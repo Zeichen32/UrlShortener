@@ -8,7 +8,7 @@
  * Time: 14:20
  */
 
-namespace TwoDevs\UrlShortener;
+namespace TwoDevs\UrlShortener\Provider;
 
 use Ivory\HttpAdapter\HttpAdapterInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,9 +17,9 @@ use TwoDevs\Cache\ArrayCache;
 use TwoDevs\Cache\CacheInterface;
 use TwoDevs\UrlShortener\Utils\UrlInterface;
 
-abstract class AbstractUrlShortener implements UrlShortenerInterface
+abstract class AbstractProvider implements ProviderInterface
 {
-    const DEFAULT_MAX_RESULTS = 2;
+    const DEFAULT_MAX_RESULTS = 20;
     const NO_MAX_RESULTS = 0;
 
     /** @var HttpAdapterInterface */
@@ -80,11 +80,13 @@ abstract class AbstractUrlShortener implements UrlShortenerInterface
 
     /**
      * @param UrlInterface $url
+     * @param string $type
+     *
      * @return string
      */
-    protected function getCacheKey(UrlInterface $url)
+    protected function getCacheKey(UrlInterface $url, $type = 'shorten')
     {
-        return sprintf('%s_%s', md5($this->getName()), md5($url));
+        return sprintf('%s_%s_%s', md5($this->getName()), $type, md5($url));
     }
 
     /**
@@ -118,9 +120,7 @@ abstract class AbstractUrlShortener implements UrlShortenerInterface
     }
 
     /**
-     * Return true if shortener is enabled
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function isEnabled()
     {
@@ -132,9 +132,7 @@ abstract class AbstractUrlShortener implements UrlShortenerInterface
     }
 
     /**
-     * Enable this shortener
-     *
-     * @return void
+     * {@inheritdoc}
      */
     public function enable()
     {
@@ -142,9 +140,7 @@ abstract class AbstractUrlShortener implements UrlShortenerInterface
     }
 
     /**
-     * Disable this shortener
-     *
-     * @return void
+     * {@inheritdoc}
      */
     public function disable()
     {
@@ -152,10 +148,7 @@ abstract class AbstractUrlShortener implements UrlShortenerInterface
     }
 
     /**
-     * Returns the maximum number of urls that can be
-     * shorten by `shorten()` method.
-     *
-     * @return integer
+     * {@inheritdoc}
      */
     public function getLimit()
     {

@@ -10,30 +10,7 @@
 
 namespace TwoDevs\UrlShortener\Exception;
 
-use Exception;
-
-class CannotShortenUrlException extends \RuntimeException
+class CannotShortenUrlException extends ProviderException
 {
     protected $message = 'Cannot shorten url';
-    protected $provider;
-
-    public function __construct($provider, $message = "", $code = 0, Exception $previous = null)
-    {
-        if (!$message) {
-            $message = $this->message;
-        }
-
-        $message = sprintf('[%s] %s', $provider, $message);
-        $this->provider = $provider;
-
-        parent::__construct($message, $code, $previous);
-    }
-
-    /**
-     * @return string
-     */
-    public function getProvider()
-    {
-        return $this->provider;
-    }
 }

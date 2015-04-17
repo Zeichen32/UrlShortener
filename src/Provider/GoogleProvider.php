@@ -8,18 +8,20 @@
  * Time: 15:23
  */
 
-namespace TwoDevs\UrlShortener;
+namespace TwoDevs\UrlShortener\Provider;
 
 use Ivory\HttpAdapter\HttpAdapterException;
 use Ivory\HttpAdapter\Message\ResponseInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use TwoDevs\UrlShortener\Exception\CannotExpandUrlException;
 use TwoDevs\UrlShortener\Exception\CannotShortenUrlException;
+use TwoDevs\UrlShortener\Exception\ChainCannotExpandUrlException;
+use TwoDevs\UrlShortener\Exception\ProviderIsDisabledException;
 use TwoDevs\UrlShortener\Exception\RateLimitExceededException;
-use TwoDevs\UrlShortener\Exception\ShortenerIsDisabledException;
 use TwoDevs\UrlShortener\Utils\Url;
 use TwoDevs\UrlShortener\Utils\UrlInterface;
 
-class GoogleShortener extends AbstractUrlShortener
+class GoogleProvider extends AbstractProvider implements ExpandableProviderInterface
 {
     protected function configureOptions(OptionsResolver $optionsResolver)
     {
@@ -35,11 +37,6 @@ class GoogleShortener extends AbstractUrlShortener
         $optionsResolver->setNormalizer('endpoint', function ($options, $value) {
             $value = $this->convertToUrl($value);
             $value->setPath('/urlshortener/v1/url');
-            $value->setQuery([
-                'access_token' => $options['access_token'],
-                'key' => $options['key'],
-            ]);
-
             return $value;
         });
     }
@@ -66,7 +63,7 @@ class GoogleShortener extends AbstractUrlShortener
     public function shorten($url)
     {
         if (!$this->isEnabled()) {
-            throw new ShortenerIsDisabledException($this->getName());
+            throw new ProviderIsDisabledException($this->getName());
         }
 
         $url = $this->convertToUrl($url);
@@ -77,6 +74,10 @@ class GoogleShortener extends AbstractUrlShortener
         }
 
         $endpoint = $this->getEndpoint();
+        $endpoint->setQuery([
+            'access_token' => $this->options['access_token'],
+            'key' => $this->options['key'],
+        ]);
 
         try {
             $this->addReturned();
@@ -107,6 +108,71 @@ class GoogleShortener extends AbstractUrlShortener
                 throw new CannotShortenUrlException($this->getName());
         }
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function expand($url)
+    {
+        if (!$this->isEnabled()) {
+            throw new ProviderIsDisabledException($this->getName());
+        }
+
+        $url = $this->convertToUrl($url);
+
+        if (!$this->canExpand($url)) {
+            throw new CannotExpandUrlException($this->getName());
+        }
+
+        $cacheKey = $this->getCacheKey($url, 'expand');
+
+        if ($this->getCache()->contains($cacheKey)) {
+            return Url::createFromUrl($this->getCache()->fetch($cacheKey));
+        }
+
+        $endpoint = $this->getEndpoint();
+        $endpoint->setQuery([
+            'access_token' => $this->options['access_token'],
+            'key' => $this->options['key'],
+            'shortUrl' => (string) $url,
+        ]);
+
+        try {
+            $this->addReturned();
+            $response = $this->getClient()->get((string) $endpoint);
+        } catch (HttpAdapterException $exp) {
+            throw new ChainCannotExpandUrlException($this->getName(), '', 0, $exp);
+        }
+
+        switch ($response->getStatusCode()) {
+            case 200:
+                $data = @json_decode($response->getBody(), true);
+
+                if (isset($data['longUrl'])) {
+                    $longUrl = Url::createFromUrl($data['longUrl']);
+                    $this->getCache()->save($cacheKey, (string) $longUrl, $this->options['cache_lifetime']);
+                    return $longUrl;
+                }
+
+                break;
+
+            case 403:
+                throw new RateLimitExceededException($this->getName());
+                break;
+
+            default:
+                throw new CannotExpandUrlException($this->getName());
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function canExpand(UrlInterface $url)
+    {
+        return ('goo.gl' == $url->getHost());
+    }
+
 
     protected function parseResponse(ResponseInterface $response)
     {

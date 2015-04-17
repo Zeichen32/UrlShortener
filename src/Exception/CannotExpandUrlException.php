@@ -4,13 +4,13 @@
  * http://www.two-developers.com
  *
  * Developer: Jens Averkamp
- * Date: 16.04.2015
- * Time: 14:19
+ * Date: 17.04.2015
+ * Time: 21:53
  */
 
 namespace TwoDevs\UrlShortener\Exception;
 
-class ShortenerIsDisabledException extends CannotShortenUrlException
+class CannotExpandUrlException extends ProviderException
 {
-    protected $message = 'This shortener is disabled';
+    protected $message = 'Cannot expand url';
 }

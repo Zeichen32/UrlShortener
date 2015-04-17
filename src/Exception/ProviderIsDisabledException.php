@@ -10,7 +10,7 @@
 
 namespace TwoDevs\UrlShortener\Exception;
 
-class RateLimitExceededException extends ProviderException
+class ProviderIsDisabledException extends ProviderException
 {
-    protected $message = 'Rate limit exceeded';
+    protected $message = 'This shortener is disabled';
 }

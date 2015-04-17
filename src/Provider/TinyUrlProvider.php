@@ -8,18 +8,18 @@
  * Time: 15:23
  */
 
-namespace TwoDevs\UrlShortener;
+namespace TwoDevs\UrlShortener\Provider;
 
 use Ivory\HttpAdapter\HttpAdapterException;
 use Ivory\HttpAdapter\Message\ResponseInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use TwoDevs\UrlShortener\Exception\CannotShortenUrlException;
+use TwoDevs\UrlShortener\Exception\ProviderIsDisabledException;
 use TwoDevs\UrlShortener\Exception\RateLimitExceededException;
-use TwoDevs\UrlShortener\Exception\ShortenerIsDisabledException;
 use TwoDevs\UrlShortener\Utils\Url;
 use TwoDevs\UrlShortener\Utils\UrlInterface;
 
-class TinyUrlShortener extends AbstractUrlShortener
+class TinyUrlProvider extends AbstractProvider
 {
     const MODE_RAND = 'random';
     const MODE_CREATE = 'create';
@@ -84,7 +84,7 @@ class TinyUrlShortener extends AbstractUrlShortener
     public function shorten($url)
     {
         if (!$this->isEnabled()) {
-            throw new ShortenerIsDisabledException($this->getName());
+            throw new ProviderIsDisabledException($this->getName());
         }
 
         $url = $this->convertToUrl($url);

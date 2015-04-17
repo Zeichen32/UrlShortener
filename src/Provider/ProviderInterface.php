@@ -8,11 +8,11 @@
  * Time: 14:02
  */
 
-namespace TwoDevs\UrlShortener;
+namespace TwoDevs\UrlShortener\Provider;
 
 use TwoDevs\UrlShortener\Utils\UrlInterface;
 
-interface UrlShortenerInterface
+interface ProviderInterface
 {
     /**
      * Convert a long url into a short url
