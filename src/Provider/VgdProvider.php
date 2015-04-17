@@ -20,6 +20,7 @@ class VgdProvider extends IsgdProvider
         parent::configureOptions($optionsResolver);
         $optionsResolver->setDefaults([
             'endpoint' => 'http://v.gd/',
+            'max_results' => self::DEFAULT_MAX_RESULTS,
         ]);
     }
 
