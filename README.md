@@ -14,6 +14,8 @@ Supportet URL Shortener
 * [Google UrlShortener](http://goo.gl/)
 * [Tiny-URL](http://www.tiny-url.info/)
 * [Ow.ly](http://ow.ly/)
+* [Is.gd](http://is.gd/)
+* [V.gd](http://v.gd/)
 
 Installation
 ------------
@@ -69,6 +71,8 @@ Using chain provider
     $shorter->addShortener(new \TwoDevs\UrlShortener\Provider\GoogleProvider($adapter, ['key' => 'your-key']));
     $shorter->addShortener(new \TwoDevs\UrlShortener\Provider\OwlyProvider($adapter, ['key' => 'your-key']));
     $shorter->addShortener(new \TwoDevs\UrlShortener\Provider\TinyUrlProvider($adapter));
+    $shorter->addShortener(new \TwoDevs\UrlShortener\Provider\IsgdProvider($adapter));
+    $shorter->addShortener(new \TwoDevs\UrlShortener\Provider\VgdUrlProvider($adapter));
     
     // Shorten a long url
     $shortUrl = $shorter->shorten('http://example.org');

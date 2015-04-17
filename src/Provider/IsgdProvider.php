@@ -26,6 +26,7 @@ class IsgdProvider extends AbstractProvider implements ExpandableProviderInterfa
         parent::configureOptions($optionsResolver);
         $optionsResolver->setDefaults([
             'endpoint' => 'http://is.gd/',
+            'max_results' => self::DEFAULT_MAX_RESULTS,
         ]);
         $optionsResolver->setAllowedTypes('endpoint', ['string', '\TwoDevs\UrlShortener\Utils\UrlInterface']);
         $optionsResolver->setNormalizer('endpoint', function ($options, $value) {
