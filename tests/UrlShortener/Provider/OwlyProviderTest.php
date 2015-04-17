@@ -10,39 +10,38 @@
 
 namespace TwoDevs\UrlShortener\Tests\Provider;
 
-use GuzzleHttp\Exception\BadResponseException;
-use TwoDevs\UrlShortener\Provider\GoogleProvider;
+use TwoDevs\UrlShortener\Provider\OwlyProvider;
 
-class GoogleProviderTest extends AbstractProviderTest
+class OwlyProviderTest extends AbstractProviderTest
 {
     public function testShortenSuccessfully()
     {
-        $response = $this->loadResponseFile('google', 'shorten_successfully_response.json');
+        $response = $this->loadResponseFile('owly', 'shorten_successfully_response.json');
         $client = $this->getClientWithResponse($response, 200, ['Content-Type' => 'application/json; charset=UTF-8']);
-        $adapter = new GoogleProvider($client);
+        $adapter = new OwlyProvider($client, ['key' => '1234']);
 
-        $shortUrl = $adapter->shorten('http://www.google.com/');
+        $shortUrl = $adapter->shorten('http://hootsuite.com');
         $this->assertInstanceOf('TwoDevs\UrlShortener\Utils\UrlInterface', $shortUrl);
-        $this->assertEquals('http://goo.gl/fbsS', (string) $shortUrl);
+        $this->assertEquals('http://ow.ly/2blNn6', (string) $shortUrl);
     }
 
     public function testExpandSuccessfully()
     {
-        $response = $this->loadResponseFile('google', 'expand_successfully_response.json');
+        $response = $this->loadResponseFile('owly', 'expand_successfully_response.json');
         $client = $this->getClientWithResponse($response, 200, ['Content-Type' => 'application/json; charset=UTF-8']);
-        $adapter = new GoogleProvider($client);
+        $adapter = new OwlyProvider($client, ['key' => '1234']);
 
-        $shortUrl = $adapter->expand('http://goo.gl/fbsS');
+        $shortUrl = $adapter->expand('http://ow.ly/2blNn6');
         $this->assertInstanceOf('TwoDevs\UrlShortener\Utils\UrlInterface', $shortUrl);
-        $this->assertEquals('http://www.google.com/', (string) $shortUrl);
+        $this->assertEquals('http://hootsuite.com/', (string) $shortUrl);
     }
 
     /** @expectedException \TwoDevs\UrlShortener\Exception\CannotExpandUrlException */
     public function testExpandNotSupportedDomain()
     {
-        $response = $this->loadResponseFile('google', 'expand_successfully_response.json');
+        $response = $this->loadResponseFile('owly', 'expand_successfully_response.json');
         $client = $this->getClientWithResponse($response, 200, ['Content-Type' => 'application/json; charset=UTF-8']);
-        $adapter = new GoogleProvider($client);
+        $adapter = new OwlyProvider($client, ['key' => '1234']);
         $adapter->expand('http://example.org');
     }
 }

@@ -22,7 +22,8 @@ class BitlyTest extends AbstractProviderTest
         $adapter = new BitlyProvider($client, ['access_token' => '1234']);
 
         $shortUrl = $adapter->shorten('http://google.com/');
-        $this->assertEquals('http://bit.ly/ze6poY', $shortUrl);
+        $this->assertInstanceOf('TwoDevs\UrlShortener\Utils\UrlInterface', $shortUrl);
+        $this->assertEquals('http://bit.ly/ze6poY', (string) $shortUrl);
     }
 
     public function testExpandSuccessfully()
@@ -32,7 +33,8 @@ class BitlyTest extends AbstractProviderTest
         $adapter = new BitlyProvider($client, ['access_token' => '1234']);
 
         $shortUrl = $adapter->expand('http://bit.ly/ze6poY');
-        $this->assertEquals('http://google.com/', $shortUrl);
+        $this->assertInstanceOf('TwoDevs\UrlShortener\Utils\UrlInterface', $shortUrl);
+        $this->assertEquals('http://google.com/', (string) $shortUrl);
     }
 
     /** @expectedException \TwoDevs\UrlShortener\Exception\CannotExpandUrlException */

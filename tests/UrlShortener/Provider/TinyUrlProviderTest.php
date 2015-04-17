@@ -21,6 +21,7 @@ class TinyUrlProviderTest extends AbstractProviderTest
         $adapter = new TinyUrlProvider($client);
 
         $shortUrl = $adapter->shorten('http://www.google.com');
-        $this->assertEquals('http://tw.gs/17r605', $shortUrl);
+        $this->assertInstanceOf('TwoDevs\UrlShortener\Utils\UrlInterface', $shortUrl);
+        $this->assertEquals('http://tw.gs/17r605', (string) $shortUrl);
     }
 }
