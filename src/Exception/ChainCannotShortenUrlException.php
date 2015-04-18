@@ -17,7 +17,7 @@ class ChainCannotShortenUrlException extends CannotShortenUrlException
     public function __construct($provider, array $exceptions, $message = "", $code = 0)
     {
         $this->exceptions = $exceptions;
-        parent::__construct($provider, $message, $code, $this->exceptions[0]);
+        parent::__construct($provider, $message, $code, count($exceptions) > 0 ? $exceptions[0] : null);
     }
 
     /**

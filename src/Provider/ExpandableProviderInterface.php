@@ -18,7 +18,7 @@ interface ExpandableProviderInterface extends ProviderInterface
      * Convert a short url into a short url
      *
      * @param string|UrlInterface $url
-     * @return string
+     * @return UrlInterface
      */
     public function expand($url);
 

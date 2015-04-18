@@ -18,7 +18,7 @@ interface ProviderInterface
      * Convert a long url into a short url
      *
      * @param string|UrlInterface $url
-     * @return string
+     * @return UrlInterface
      */
     public function shorten($url);
 

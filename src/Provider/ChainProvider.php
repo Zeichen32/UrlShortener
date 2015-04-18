@@ -22,10 +22,16 @@ class ChainProvider implements Expandable
 {
 
     /** @var ProviderInterface[]  */
-    protected $provider = [];
+    protected $provider;
 
     /** @var bool */
     protected $enabled = true;
+
+    public function __construct()
+    {
+        $this->provider = new \SplObjectStorage();
+    }
+
 
     /**
      * @param string|object $url
@@ -51,7 +57,7 @@ class ChainProvider implements Expandable
      */
     public function addProvider(ProviderInterface $provider)
     {
-        $this->provider[$provider->getName()] = $provider;
+        $this->provider->attach($provider);
     }
 
     /**
